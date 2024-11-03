@@ -42,6 +42,7 @@ def food_recognition():
             global imgpath
 
             food_recognition.imgpath = f.filename
+            
 
             file_extension = f.filename.rsplit('.', 1)[1].lower()
             img = cv2.imread(filepath)
