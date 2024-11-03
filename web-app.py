@@ -21,7 +21,7 @@ import glob
 
 from ultralytics import YOLO
 
-app = Flask(__name__)
+app = Flask(__name__, template_folder='.')
 
 @app.route("/")
 # Load the website
@@ -41,7 +41,7 @@ def food_recognition():
             global imgpath
 
             food_recognition.imgpath = f.filename
-            print("Printing food_reocgnition :::::" + food_recognition)
+            print("Printing food_recognition :::::" + food_recognition)
 
             file_extension = f.filename.rsplit('.', 1)[1].lower()
             img = cv2.imread(filepath)
@@ -52,7 +52,7 @@ def food_recognition():
                 return 0
 
             image = Image.open(io.BytesIO(frame))
-            yolo = YOLO("insert.yolo.file.here")
+            yolo = YOLO("best.pt")
             detections = yolo.predict(image, save=True)
             return display(f.filename) # displays the yolo model boxes
         
@@ -74,3 +74,7 @@ def display(filename):
     environ = request.environ
 
     return send_from_directory(directory, latest_file, environ) # result is shown in a separate tab
+
+
+if __name__ == "__main__":
+    app.run(debug=True)
