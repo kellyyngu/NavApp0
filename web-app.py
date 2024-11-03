@@ -56,6 +56,8 @@ def food_recognition():
             image = Image.open(io.BytesIO(frame))
             yolo = YOLO("best.pt")
             detections = yolo.predict(image, save=True)
+            for result in detections:
+                result.show
             return display(f.filename) # displays the yolo model boxes
         
 @app.route('/<path:filename>')
