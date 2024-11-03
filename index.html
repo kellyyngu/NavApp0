@@ -2,6 +2,12 @@
 <html>
 <head>
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+    crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+     crossorigin=""></script>
     <title>Restaurants/Cafes Navigation</title>
 </head>
 <body>
@@ -18,7 +24,34 @@
 
         <div class="map">
             <h2>Map Placeholder</h2>
-            <div id="map"></div>
+            <div id="map">
+                <!--<img src="https://tile.openstreetmap.org/18/169630/139328.png">-->
+            </div>
+
+            <!--
+                Math:
+                52.9538, -1.1505
+
+                    x: 52.9538
+                    y: -3.4139775924
+
+                    Unit square:
+                        x:  0.6470894444
+                        y:  1.58670281887
+
+                        N:  262144
+                        x tile: 169630
+                        y tile: 415944
+            -->
+            <script>
+                var map = L.map('map').setView([52.9538, -1.1505], 18);
+
+                L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    maxZoom: 18,
+                    noWrap: true,
+                    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+                }).addTo(map);
+            </script>
         </div>
     </main>
 
