@@ -1,62 +1,34 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[1]:
-
-
 from bs4 import BeautifulSoup
 import requests
-import pandas as pd
 
+def fetch_mowgli_menu(url):
+    try:
+        # Send a request to the webpage
+        response = requests.get(url)
+        response.raise_for_status()  # Raise an error for unsuccessful requests
+        print("Page accessed successfully.")
 
-# In[2]:
+        # Parse the page content
+        soup = BeautifulSoup(response.content, "html.parser")
 
+        # Find the menu sections
+        menu_sections = soup.find_all('div', class_='wp-block-columns has-3-columns menu-section is-layout-flex wp-container-core-columns-is-layout-1 wp-block-columns-is-layout-flex')
 
-url = "https://www.mowglistreetfood.com/menus/nottingham/food/"
-page = requests.get(url)
-soup = BeautifulSoup(page.text, 'html')
+        # Extract item names
+        if menu_sections:
+            for section in menu_sections:
+                item_name = section.find('div')  # Modify the class if necessary based on the HTML structure
+                if item_name:
+                    item_name = item_name.get_text(strip=True)
+                    print(f"Item: {item_name}")
+                else:
+                    print("No item name found in this section.")
+        else:
+            print("No menu sections found.")
 
+    except requests.exceptions.RequestException as e:
+        print("Failed to retrieve the webpage:", e)
 
-# In[3]:
-
-
-print(soup)
-
-
-# In[4]:
-
-
-response = requests.get(url)
-
-
-# In[5]:
-
-
-if response.status_code == 200:
-    print("Page accessed successfully.")
-    page_content = response.content
-
-
-# In[6]:
-
-
-soup = BeautifulSoup(page_content, "html.parser")
-
-
-# In[8]:
-
-
-menu_sections = soup.find_all('div', class_='wp-block-columns has-3-columns menu-section is-layout-flex wp-container-core-columns-is-layout-1 wp-block-columns-is-layout-flex')
-
-
-# In[9]:
-
-
-for section in menu_sections:
-       item_name = section.find('div') 
-       if item_name:
-           item_name = item_name.get_text(strip=True)
-           print(f"Item: {item_name}")
-       else:
-           print("Failed to retrieve the webpage.")
-
+if __name__ == "__main__":
+    url = "https://www.mowglistreetfood.com/menus/nottingham/food/"
+    fetch_mowgli_menu(url)

@@ -1,65 +1,33 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[51]:
-
-
 from bs4 import BeautifulSoup
 import requests
 import pandas as pd
 
+def fetch_pizza_hut_menu(url):
+    try:
+        # Send a request to the webpage
+        response = requests.get(url)
+        response.raise_for_status()  # Raise an error for unsuccessful requests
+        print("Page accessed successfully.")
 
-# In[52]:
+        # Parse the page content
+        soup = BeautifulSoup(response.content, "html.parser")
 
+        # Find the menu sections
+        menu_sections = soup.find_all('div', class_='col-12 pb-3 menu-products')
 
-url = "https://www.pizzahut.co.uk/restaurants/find/menu/nottinghamcastlemeadow"
-page = requests.get(url)
-soup = BeautifulSoup(page.text, 'html')
+        # Extract item names
+        if menu_sections:
+            for section in menu_sections:
+                item_name_div = section.find('div') 
+                if item_name_div: 
+                    item_name = item_name_div.get_text(strip=True)
+                    print(f"Item: {item_name}") 
+        else:
+            print("No menu sections found.")
 
+    except requests.exceptions.RequestException as e:
+        print("Failed to retrieve the webpage:", e)
 
-# In[53]:
-
-
-print(soup)
-
-
-# In[54]:
-
-
-response = requests.get(url)
-
-
-# In[55]:
-
-
-if response.status_code == 200:
-    print("Page accessed successfully.")
-    page_content = response.content
-
-
-# In[56]:
-
-
-soup = BeautifulSoup(page_content, "html.parser")
-
-
-# In[57]:
-
-
-menu_sections = soup.find_all('div', class_='col-12 pb-3 menu-products')
-
-
-# In[58]:
-
-
-for section in menu_sections:
-    item_name_div = section.find('div') 
-    if item_name_div: 
-        item_name = item_name_div.get_text(strip=True)
-        print(f"Item: {item_name}") 
-    else:
-        print("No item name found in this section.")
-
-if not menu_sections:
-    print("Failed to retrieve the webpage.")
-
+if __name__ == "__main__":
+    url = "https://www.pizzahut.co.uk/restaurants/find/menu/nottinghamcastlemeadow"
+    fetch_pizza_hut_menu(url)
