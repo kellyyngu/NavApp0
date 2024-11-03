@@ -35,13 +35,13 @@ def food_recognition():
             f = request.files['file']
             # Storing data in the uploads folder
             basepath = os.path.dirname(__file__)
-            filepath = os.path.join(basepath, 'uploads', f.filename)
+            upload_folder = os.path.join(basepath, 'uploads')
+            filepath = os.path.join(upload_folder, f.filename)
             print("Upload folder: " + filepath)
             f.save(filepath)
             global imgpath
 
             food_recognition.imgpath = f.filename
-            print("Printing food_recognition :::::" + food_recognition)
 
             file_extension = f.filename.rsplit('.', 1)[1].lower()
             img = cv2.imread(filepath)
