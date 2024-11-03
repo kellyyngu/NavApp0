@@ -56,7 +56,7 @@ for section in menu_sections:
        item_name = section.find('div') 
        if item_name:
            item_name = item_name.get_text(strip=True)
-       print(f"Item: {item_name}")
-else:
-   print("Failed to retrieve the webpage.")
+           print(f"Item: {item_name}")
+       else:
+           print("Failed to retrieve the webpage.")
 
