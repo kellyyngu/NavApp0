@@ -75,6 +75,9 @@ def display(filename):
 
     environ = request.environ
 
+    for key, value in environ.items():
+        print(f"{key}: {value}")
+
     return send_from_directory(directory, latest_file, environ) # result is shown in a separate tab
 
 
