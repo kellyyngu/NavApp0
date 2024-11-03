@@ -16,11 +16,14 @@
     </header>
     
     <main>
-        <div class="file-upload">
-            <h2>Upload a File</h2>
-            <input type="file" id="file-input" />
-            <button id="upload-button">Upload</button>
-        </div>
+
+        <form class="form-signin col-lg-3" method=post enctype=multipart/form-data name="form1">
+            <div class="file-upload">
+                <h2>Upload a File</h2>
+                <input type="file" name="file" class="form-control-file" id="file-input">
+                <button id="upload-button">Upload</button>
+            </div>
+        </form>
 
         <div class="map">
             <h2>Map Placeholder</h2>
